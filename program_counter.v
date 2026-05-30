@@ -10,9 +10,9 @@ module program_counter(
 always @(posedge clk or posedge rst)
 begin
 	if(rst)
-		PC = 0;
+		PC <= 0;
 	else
-		PC = PC_Next;
+		PC <= PC_Next;
 end
 
 
