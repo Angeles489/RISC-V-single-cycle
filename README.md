@@ -111,7 +111,7 @@ x10 = 15
 
 ## Notas de diseño
 
-- El registro `x0` está protegido por software en el testbench (inicializado a 0 y la condición `A3 != 5'b0` evita sobreescribirlo).
+- El registro `x0` está protegido por software en el testbench (inicializado a 0).
 - El procesador es **single-cycle**: no hay pipeline, cada instrucción tarda exactamente 1 ciclo de reloj en completarse.
 - El reset del PC es **asíncrono activo alto**: en cuanto `rst=1`, el PC vuelve a `0x00000000` sin esperar el flanco de reloj.
 - La señal `PCSrc` se calcula como `(zero & Branch) | Jump`, controlando si el siguiente PC es `PC+4` o `PC+Imm`.
