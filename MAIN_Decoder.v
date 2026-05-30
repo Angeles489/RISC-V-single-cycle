@@ -24,7 +24,7 @@ begin
     Jump = 1'b0;
 
     case(Op)
-
+    //los casos con don't cares X, se omiten
         // lw
         3:
         begin
