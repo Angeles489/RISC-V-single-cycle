@@ -122,9 +122,9 @@ x10 = 15
 ## Prueba de simulación
 
 <p align="center">
-  <imagenes src="Monitor_RISC.png" width="250">
-  <imagenes src="Waves_RISC.png" width="250">
-  <imagenes src="RTL_RISC.png" width="250">
+  <img src="imagenes/Monitor_RISC.png" width="250">
+  <img src="imagenes/Waves_RISC.png" width="250">
+  <img src="imagenes/RTL_RISC.png" width="250">
 </p>
 
 
