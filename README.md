@@ -4,38 +4,6 @@ Implementación de un procesador RISC-V de ciclo único (single-cycle) en Verilo
 
 ---
 
-## Arquitectura
-
-El procesador implementa el datapath clásico de ciclo único del libro *Digital Design and Computer Architecture: RISC-V Edition* (Harris & Harris). Cada instrucción completa su ejecución en un único ciclo de reloj.
-
-```
-         ┌─────────┐     ┌──────────────┐     ┌───────────────┐
-clk/rst ─►   PC    ├────►  Instr Mem    ├────►  Control Unit  │
-         └────┬────┘     └──────────────┘     └──────┬────────┘
-              │                                       │
-              ▼                                       ▼
-         ┌─────────┐   ┌──────────────┐   ┌──────────────────┐
-         │ PC + 4  │   │ Register File│◄──│  Writeback MUX   │
-         └────┬────┘   └──────┬───────┘   └──────────────────┘
-              │               │                      ▲
-              │          RD1  │  RD2                 │
-              │               ▼                      │
-              │          ┌─────────┐   ┌──────────┐  │
-              │          │   ALU   │◄──│ ALU MUX  │  │
-              │          └────┬────┘   └──────────┘  │
-              │               │                      │
-              │               ▼                      │
-              │         ┌───────────┐                │
-              │         │ Data Mem  ├────────────────►│
-              │         └───────────┘
-              │
-         ┌────▼────────┐
-         │  PC Next MUX│◄── Branch/Jump logic
-         └─────────────┘
-```
-
----
-
 ## Módulos
 
 | Archivo | Módulo | Descripción |
@@ -102,8 +70,6 @@ El archivo `instrMem.hex` contiene las instrucciones en hexadecimal, una por lí
 00500293
 00a00313
 00628533
-00000013
-00000013
 ```
 
 Que corresponde al programa:
@@ -112,8 +78,6 @@ Que corresponde al programa:
 addi x5,  x0, 5      # x5 = 5
 addi x6,  x0, 10     # x6 = 10
 add  x10, x5, x6     # x10 = x5 + x6 = 15
-nop
-nop
 ```
 
 > La memoria de instrucciones está dimensionada para 32 palabras (128 bytes). Las posiciones sin instrucción deben llenarse con `00000013` (NOP = `addi x0, x0, 0`) para evitar valores indefinidos en la simulación.
@@ -124,24 +88,6 @@ nop
 
 ### Herramienta
 - **Questa Altera Starter FPGA Edition 2025.2** (ModelSim compatible)
-
-### Ejecutar la simulación
-
-1. Abrir Questa/ModelSim
-2. Ejecutar el script `.do` generado por Quartus:
-   ```tcl
-   do Riscv_run_msim_rtl_verilog.do
-   ```
-3. O compilar manualmente:
-   ```tcl
-   vlib rtl_work
-   vmap work rtl_work
-   vlog -work work top.v ALU.v program_counter.v register_file.v \
-        inmediate_generator.v ALU_control.v control_unit.v data_memory.v \
-        mux.v adder.v branch_comparator.v MAIN_Decoder.v instruction_memory.v top_tb.v
-   vsim -t 1ps -voptargs="+acc" top_tb
-   run -all
-   ```
 
 ### Resultado esperado
 
@@ -173,10 +119,11 @@ x10 = 15
 
 ---
 
-## Posibles extensiones futuras
+## Prueba de simulación
 
-- Agregar instrucciones tipo I de lógica: `andi`, `ori`, `xori`, `slli`, `srli`, `srai`
-- Soporte para `jalr`
-- Implementación pipeline de 5 etapas (IF, ID, EX, MEM, WB)
-- Hazard unit para forwarding y stalls
-- Síntesis en FPGA (Cyclone V / MAX 10)
+
+
+---
+## Autor
+
+Ángeles Araiza García A00574806
